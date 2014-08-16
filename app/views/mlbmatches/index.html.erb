@@ -1,0 +1,46 @@
+<% provide(:title, 'MLB Matchups') %>
+<h1>MLB Matchups</h1>
+
+<ul class="nav nav-tabs" role="tablist">
+  <% @mlbmatches.each do |day_mlbmatches| %>
+    <% day = day_mlbmatches[0].match_date.strftime('%b%e') %>
+    <li class="<%= 'active' if @mlbmatches.index(day_mlbmatches) == @active_index %>">
+      <a href="#" data-target="#<%= day %>" role="tab" data-toggle="tab">
+        <%= day_mlbmatches[0].match_date.strftime('%b %e') %>
+      </a>
+    </li>
+  <% end %>
+</ul>
+
+<div class="tab-content">
+  <% @mlbmatches.each do |day_mlbmatches| %>
+    <% day = day_mlbmatches[0].match_date.strftime('%b%e') %>
+    <div id="<%= day %>" class="tab-pane <%= 'active' if @mlbmatches.index(day_mlbmatches) == @active_index %>">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Match Time</th>
+            <th>Away Team</th>
+            <th>Home Team</th>
+            <th>Lines</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% day_mlbmatches.each do |match| %>
+            <tr>
+              <td><%= match.match_time.strftime('%I:%M %P') %></td>
+              <td>
+                <strong><%= match.team_away %></strong> - <small><%= match.pitcher_away %></small>
+              </td>
+              <td>
+                <strong><%= match.team_home %></strong> - <small><%= match.pitcher_home %></small>
+              </td>
+              <td><%= link_to 'Go to lines', match %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+</div>

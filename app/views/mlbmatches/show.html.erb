@@ -1,0 +1,41 @@
+<% title = "#{@mlbmatch.team_away} at #{@mlbmatch.team_home}" %>
+<% provide(:title, title) %>
+<div class="page-header">
+  <h2 class="text-center"><%= title %></h2>
+</div>
+<span><strong>Match date: </strong><%= @mlbmatch.match_date.strftime('%A, %B %d, %Y') %></span>
+<p><strong>Match time: </strong><%= @mlbmatch.match_time.strftime('%I:%M%P') %> PST</p>
+<div class="row">
+  <div class="col-md-6">
+    <table class="table table-condensed table-hover">
+      <caption><h4>Line Movements</h4></caption>
+      <thead>
+        <tr>
+          <th><small>Date</small></th>
+          <th><small>Time</small></th>
+          <th><small>Away Moneyline</small></th>
+          <th><small>Home Moneyline</small></th>
+          <th><small>Over Total</small></th>
+          <th><small>Under Total</small></th>
+          <th><small>Away Runline</small></th>
+          <th><small>Home Runline</small></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @mlblines.each do |line| %>
+          <tr>
+            <td><small><%= line.created_at.strftime('%m/%d') %></small></td>
+            <td><small><%= line.created_at.strftime('%I:%M%P') %></small></td>
+            <td><small><%= format_line(line.moneyline_away) %></small></td>
+            <td><small><%= format_line(line.moneyline_home) %></small></td>
+            <td><small><%= "#{line.total} #{format_line(line.over_adjust)}" %></small></td>
+            <td><small><%= "#{line.total} #{format_line(line.under_adjust)}" %></small></td>
+            <td><small><%= "#{format_line(line.spread_away)} #{format_line(line.spread_adjust_away)}" %></small></td>
+            <td><small><%= "#{format_line(line.spread_home)} #{format_line(line.spread_adjust_home)}" %></small></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
